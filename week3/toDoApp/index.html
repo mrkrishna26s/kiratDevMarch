@@ -3,8 +3,85 @@
 <head>
     <title>ToDo App</title>
     <script>
-        function parsedResponse(){
+        function handleResponse(response, element){//deleteDone == handleResponse
+            console.log("delete done");
+            // delete the right todo from the list
+            // you will need to give each todo an id, and that should be enough to remove
+            if(response.status === 200){
+                element.remove();
+            }else{
+                console.log("Failed to remove");
+            }
+        }
+        function deleteTodo(id, element){
+            console.log(id);
+            fetch("http://localhost:3002/todos/"+id,{
+                method: "DELETE",
+                headers: {
+                    "Content-Type":"application/json"
+                }
+            }).then(function(response){
+                handleResponse(response, element);
+            });
+        }
+
+        function todoCallback(data){
+            var parentElement = document.getElementById("mainArea");
+            // parentElement.innerHTML = JSON.stringify(data);
+            for(var i = 0; i < data.length; i++){
+                var childElement = document.createElement("div");
+
+                var grandChildElement1 = document.createElement("span");
+                grandChildElement1.innerHTML =data[i].title;
+
+                var grandChildElement2 = document.createElement("span")
+                grandChildElement2.innerHTML = data[i].description;
+
+                var grandChildElement3 = document.createElement("button")
+                grandChildElement3.innerHTML = "Delete"
+                // grandChildElement3.setAttribute("onclick","deleteTodo(" +data[i].id+ ")");
+                grandChildElement3.setAttribute("onclick", "deleteTodo(" + data[i].id + ", this.parentElement)");
+
+
+                childElement.appendChild(grandChildElement1);
+                childElement.appendChild(grandChildElement2);
+                childElement.appendChild(grandChildElement3);
+
+             // childElement.innerHTML= data[i].title;
+                parentElement.appendChild(childElement);
+            }
+        }   
+        
+        function getDataCallback(resp){
+            resp.json().then(todoCallback)
+        }
+        function getData(){
+            fetch("http://localhost:3002/todos", {
+                method : "GET",
+            }).then(getDataCallback)
+        }
+        getData();
+
+
+        function parsedResponse(data){
             console.log(data)
+            var parentElement = document.getElementById("mainArea")
+            var childElement = document.createElement("div");
+
+            var grandChildElement1 = document.createElement("span");
+            grandChildElement1.innerHTML =data.title;
+
+            var grandChildElement2 = document.createElement("span")
+            grandChildElement2.innerHTML = data.description;
+
+            var grandChildElement3 = document.createElement("button")
+            grandChildElement3.innerHTML = "Delete"
+
+            childElement.appendChild(grandChildElement1);
+            childElement.appendChild(grandChildElement2);
+            childElement.appendChild(grandChildElement3);
+
+            parentElement.appendChild(childElement);
         }
 
         function callback(resp){
@@ -12,11 +89,13 @@
         }
 
         function send(){
+            var tit = document.getElementById("title").value;
+            var dec = document.getElementById("description").value;
             fetch("http://localhost:3002/todos",{
                 method: "POST",
                 body: JSON.stringify({
-                    title: "gym",
-                    description: "go to gym from 6 - 7"
+                    title: tit,
+                    description: dec
                 }),
                 headers: {
                     "Content-Type":"application/json"
@@ -33,6 +112,9 @@
         <input type="text" id="description" placeholder="Go to GYM on 7 o' clock"><br><br>
         <button type="button" onclick="send()">Send Todo </button>
     </form>
+    <div id="mainArea">
+
+    </div>
     
 </body>
 </html>
