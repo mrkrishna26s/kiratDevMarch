@@ -1,5 +1,5 @@
 function createDomElement(data){
-    var parentElement = document.getElementById("mainArea1");
+    var parentElement = document.getElementById("mainArea1"); // performing this operation is expensive so we use virtual DOM that react is using
     var currentChildren = Array.from(parentElement.children);
     console.log(currentChildren);
     let added = 0, deleted =0, updated =0;
@@ -49,12 +49,16 @@ function createDomElement(data){
 
 window.setInterval(()=> {
     const  todos = [];
-    for(let i =0; i< Math.floor(Math.random()*100); i++){
+    var count = Math.floor(Math.random()*10);
+    var val = count;
+    for(let i =0; i< count; i++){
         todos.push({
-            title: "go to gym",
+            title: `go to gym ${val}`,
             description: "go to gym from 5",
             id: i+1
+            
         })
+        val= val+1;
     }
     createDomElement(todos)
 },1000);
