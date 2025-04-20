@@ -26,8 +26,8 @@ setInterval(() => {
 },2000)
   return (//rendering 
    <>
-   {/* entry point of our app */}
    <h1>hi there ...</h1>
+   {/* entry point of our app */}
    {todo.title}
    <br></br>
    {todo.description}
