@@ -1,6 +1,7 @@
 import React from "react"
 import './App.css'
-
+// f we are making changes in state variable than we need to tell react 
+// conponents dont need to be callred it need to be rendered
 setInterval(() => {
   todo = {
     title: "worship",
@@ -9,7 +10,7 @@ setInterval(() => {
 },2000) //this is not updating the DOM correctly 
 
 function App() {
-const [todo, settodo] = React.useState(
+const [todo, settodo] = React.useState(//useState contains initial value
   {
     title: "krishna",
     description:": krishna is the king",
@@ -17,22 +18,28 @@ const [todo, settodo] = React.useState(
   }
 )
 setInterval(() => {
-  settodo({
+  settodo({//rerendering after each change in state
       title: "worship",
       description: " go for worship",
       id: 2
   })
 },2000)
-  return (
+  return (//rendering 
    <>
    {/* entry point of our app */}
+   <h1>hi there ...</h1>
    {todo.title}
    <br></br>
    {todo.description}
    {todo.id}
-    <h1>hi there ...</h1>
+    <PersonName firstName={todo.title} lastName="Singh"></PersonName>
    </>
   )
+}
+function PersonName(props){
+  return <div>
+    {props.firstName} {props.lastName}
+  </div>
 }
 
 export default App
