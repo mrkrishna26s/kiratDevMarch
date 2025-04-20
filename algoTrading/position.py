@@ -1,0 +1,5 @@
+from dhanhq import dhanhq
+clientId = "1101493505"
+accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzQ1MTY2MDExLCJ0b2tlbkNvbnN1bWVyVHlwZSI6IlNFTEYiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwMTQ5MzUwNSJ9.K69D0iWln6LLWBcoEIYMMnddSOFtzpBcJOCaLu9eVAhL3tUQyjEmKAkBQjFWKg24dl96fnhEuFsdL53rWwyM3w"
+dhan = dhanhq(clientId, accessToken)
+print(dhan.get_holdings())

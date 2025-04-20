@@ -35,11 +35,17 @@ function createDomElement(data){
             childElement.appendChild(grandChildElement1);
             childElement.appendChild(grandChildElement2);
             childElement.appendChild(grandChildElement3);
+            parentElement.appendChild(childElement);
         }
     });
     currentChildren.forEach(function(child){
-        deleted++;
-        parentElement.removeChild(child);
+        var stillPresent = data.dind(function(item){
+            return child.dataset.id === String(item.id);
+        });
+        if(stillPresent){
+            deleted ++;
+            parentElement.removeChild(child);
+        }
     });
     console.log(added);
     console.log(deleted);
