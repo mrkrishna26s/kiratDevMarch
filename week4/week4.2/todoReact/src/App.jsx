@@ -1,31 +1,57 @@
-import React, { useEffect } from 'react'
+import React, {useEffect} from 'react'
+import './App.css'
+
+// custom hook
+function useTodos(){
+    const [todos, settodos] = React.useState([]);
+    console.log("render");
+    // making it real time: means self updating window
+    useEffect(()=>{
+        fetch("http://localhost:3002/todos").then((response)=>{
+            response.json().then((data)=>{
+                console.log(data)
+                settodos(data);
+            })
+        });
+        setInterval(()=>{
+            fetch("http://localhost:3002/todos").then((response)=>{
+                response.json().then((data)=>{
+                    console.log(data)
+                    settodos(data);
+                })
+            })
+        },200);
+
+    },[]);
+    return todos;
+}
 
 function App() {
-  const [todo, settodo] = React.useState([{
-    title: "go to gym",
-    description:"hit the gym at 7 o, clock",
-    id: 1},
-    {
-        title: "go to class",
-        description: "go to present in class",
-        id : 2
-    }
-]);
-//   setInterval(()=>{
-//     settodoforToday({
-//       title: "Reading time",
-//       description: "time to study begins, lets start learning",
-//       id: 1
-//     })
-//   }, 1000)
+    const todos = useTodos();
+//   const [todos, settodos] = React.useState([]);
+//     console.log("render");
 
+//     useEffect(()=>{
+//         fetch("http://localhost:3002/todos").then((response)=>{
+//             response.json().then((data)=>{
+//                 console.log(data)
+//                 settodos(data);
+//             })
+//         })
+//     },[])
+    console.log("rerendering")
+  
   return (
     <>
-       {todo.map((todos) => {
-        return <todo title ={todo.title} description= {todo.description}></todo>
-       })}
+    {todos.map(todo=>{
+        return <div>
+            {todo.title}
+            <br />
+            {todo.description}<br/>
+            <button>Delete</button>
+        </div>
+    })}
     </>
   )
 }
-
 export default App
